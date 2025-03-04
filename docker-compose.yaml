@@ -1,0 +1,21 @@
+services:
+  calibre-web-automated:
+    image: crocodilestick/calibre-web-automated:latest
+    container_name: Calibre-WEB-AUTOMATED
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 8083 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 90s
+    environment:
+       PUID: 1000
+       PGID: 1000
+       TZ: Europe/Madrid
+    volumes:
+      - /home/hades/dockers/calibre-web/config:/config:rw
+      - /home/hades/dockers/calibre-web/ingest:/cwa-book-ingest:rw
+      - /home/hades/dockers/calibre-web/library:/calibre-library:rw
+    ports:
+      - 8213:8083 
+    restart: always
